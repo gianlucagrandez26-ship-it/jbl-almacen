@@ -1,0 +1,151 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    @apply bg-papel text-tinta font-sans antialiased;
+    font-feature-settings: 'cv05' 1, 'ss01' 1;
+  }
+
+  ::selection {
+    @apply bg-senal text-tinta;
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-senal ring-offset-2 ring-offset-white;
+  }
+
+  /* Barras de desplazamiento discretas */
+  ::-webkit-scrollbar { width: 11px; height: 11px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-acero-200 border-4 border-solid border-transparent rounded-full;
+    background-clip: padding-box;
+  }
+  ::-webkit-scrollbar-thumb:hover { @apply bg-acero-300; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: .01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: .01ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* ---- Tipografía de servicio ---------------------------------- */
+  .eyebrow {
+    @apply font-mono text-eyebrow uppercase tracking-[0.14em] text-acero-500;
+  }
+
+  .titulo {
+    @apply font-display font-extrabold tracking-[-0.02em] text-tinta;
+  }
+
+  .dato {
+    @apply font-mono tabular-nums;
+  }
+
+  /* ---- Ficha de almacén: la tarjeta-etiqueta del sistema -------- */
+  .ficha {
+    @apply relative bg-white rounded-ficha shadow-ficha transition-shadow duration-200;
+  }
+
+  .ficha:hover {
+    @apply shadow-elevada;
+  }
+
+  /* Perforación superior: la marca de la etiqueta física colgada */
+  .ficha-perforacion::before {
+    content: '';
+    @apply absolute left-4 top-0 h-[7px] w-[7px] rounded-full bg-papel;
+    box-shadow: 0 0 0 1px rgba(20, 23, 26, 0.14) inset;
+    transform: translateY(-3.5px);
+  }
+
+  /* ---- Controles ------------------------------------------------ */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-ficha px-4 h-10
+           font-medium text-sm transition-colors duration-150
+           disabled:opacity-40 disabled:pointer-events-none whitespace-nowrap;
+  }
+
+  .btn-principal {
+    @apply btn bg-tinta text-white hover:bg-acero-700;
+  }
+
+  .btn-borde {
+    @apply btn bg-white text-tinta border border-acero-200 hover:border-acero-400 hover:bg-acero-50;
+  }
+
+  .btn-plano {
+    @apply btn text-acero-600 hover:bg-acero-100 hover:text-tinta;
+  }
+
+  .btn-peligro {
+    @apply btn bg-white text-critico border border-critico/25 hover:bg-critico/5;
+  }
+
+  .campo {
+    @apply w-full h-10 px-3 bg-white border border-acero-200 rounded-ficha text-sm
+           placeholder:text-acero-400 transition-colors
+           focus:border-acero-500 focus:outline-none focus:ring-2 focus:ring-senal/45;
+  }
+
+  .campo-area {
+    @apply campo h-auto py-2.5 leading-relaxed resize-y min-h-[76px];
+  }
+
+  .etiqueta-campo {
+    @apply block font-mono text-micro uppercase tracking-[0.1em] text-acero-500 mb-1.5;
+  }
+
+  /* ---- Distintivos ---------------------------------------------- */
+  .distintivo {
+    @apply inline-flex items-center gap-1.5 rounded-ficha px-2 py-[3px]
+           font-mono text-micro uppercase tracking-[0.07em] whitespace-nowrap;
+  }
+
+  .distintivo-ok      { @apply distintivo bg-ok-claro text-ok; }
+  .distintivo-alerta  { @apply distintivo bg-alerta-claro text-alerta; }
+  .distintivo-critico { @apply distintivo bg-critico-claro text-critico; }
+  .distintivo-neutro  { @apply distintivo bg-acero-100 text-acero-600; }
+
+  /* ---- Medidor de existencias ----------------------------------- */
+  .medidor {
+    @apply relative h-[3px] w-full bg-acero-100 overflow-hidden rounded-full;
+  }
+
+  .medidor > span {
+    @apply block h-full origin-left rounded-full animate-barrido;
+  }
+
+  /* Retícula de fondo: el trazo de plano del almacén */
+  .reticula {
+    background-image:
+      linear-gradient(rgba(20,23,26,.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(20,23,26,.045) 1px, transparent 1px);
+    background-size: 34px 34px;
+  }
+}
+
+@layer utilities {
+  .escalonado > * {
+    animation: surge .34s cubic-bezier(.22,.61,.36,1) both;
+  }
+  .escalonado > *:nth-child(1)  { animation-delay: 0ms; }
+  .escalonado > *:nth-child(2)  { animation-delay: 25ms; }
+  .escalonado > *:nth-child(3)  { animation-delay: 50ms; }
+  .escalonado > *:nth-child(4)  { animation-delay: 75ms; }
+  .escalonado > *:nth-child(5)  { animation-delay: 100ms; }
+  .escalonado > *:nth-child(6)  { animation-delay: 125ms; }
+  .escalonado > *:nth-child(7)  { animation-delay: 150ms; }
+  .escalonado > *:nth-child(8)  { animation-delay: 175ms; }
+  .escalonado > *:nth-child(n+9){ animation-delay: 200ms; }
+}
